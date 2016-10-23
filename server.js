@@ -1,28 +1,6 @@
-var path = require('path')
-var express = require('express')
-var webpack = require('webpack')
-var config = require('./webpack.config.dev')
+var login = require("facebook-chat-api")
+var weather = require('./api/weather')
 
-var app = express()
-var compiler = webpack(config)
-
-// middleware
-app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath
-}))
-
-app.use(require('webpack-hot-middleware')(compiler))
-
-// api
-app.get('/getWeather', require('./api/weather'))
-
-// run server
-app.listen(3000, 'localhost', function(err) {
-    if (err) {
-        console.log(err)
-        return
-    }
-
-    console.log('Listening at http://loacalhost:3000')
+weather(function(err, message) {
+    console.log(message)
 })
